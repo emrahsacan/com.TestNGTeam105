@@ -8,22 +8,25 @@ import pages.ZeroWebAppPage;
 import utilities.Driver;
 import utilities.ReusableMethods;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-public class C02_SoftAssert {
-
+public class C02_tekrar {
     @Test
     public void test01(){
-        // 1. “http://zero.webappsecurity.com/” Adresine gidin
+        //1. “http://zero.webappsecurity.com/” Adresine gidin
         Driver.getDriver().get("http://zero.webappsecurity.com/");
         // 2. Sign in butonuna basin
-        ZeroWebAppPage zeroWebAppPage=new ZeroWebAppPage();
+        ZeroWebAppPage zeroWebAppPage=new ZeroWebAppPage(); //Obje oluşturmamız lazım
         zeroWebAppPage.signInButonu.click();
-
         // 3. Login kutusuna “username” yazin
         zeroWebAppPage.usernameKutusu.sendKeys("username");
+
         // 4. Password kutusuna “password” yazin
         zeroWebAppPage.passwordKutusu.sendKeys("password");
+
         // 5. Sign in tusuna basin
         zeroWebAppPage.signInSubmitButonu.click();
         // 6. Online banking menusu icinde Pay Bills sayfasina gidin
@@ -32,35 +35,38 @@ public class C02_SoftAssert {
         zeroWebAppPage.payBillLinki.click();
         // 7. “Purchase Foreign Currency” tusuna basin
         zeroWebAppPage.purchaseFCButonu.click();
+
         // 8. “Currency” drop down menusunden Eurozone’u secin
-        Select select = new Select(zeroWebAppPage.currencyDropdown);
+        // dropdown menüsü için select ojesi oluştururuz
+        Select select= new Select(zeroWebAppPage.currencyDropdown);
         select.selectByVisibleText("Eurozone (euro)");
-        // 9. soft assert kullanarak "Eurozone (euro)" secildigini test edin
-        SoftAssert softAssert= new SoftAssert();
-        String actualDropdownSecim= select.getFirstSelectedOption().getText();
+
+        // 9. soft assert kullanarak “Eurozone (euro)” secildigini test edin
+        SoftAssert softAssert=new SoftAssert(); //softAssert objesi olusyururuz en aşağı da assertAll demeliyiz
+        String actualDropdownSecim=select.getFirstSelectedOption().getText();
         String expectedDropdownSecim="Eurozone (euro)";
-        softAssert.assertEquals(actualDropdownSecim,expectedDropdownSecim,"eurozone secimi testi failed");
+        softAssert.assertEquals(actualDropdownSecim,expectedDropdownSecim,"eurozone testi failed");
 
-        // 10. soft assert kullanarak DropDown listesinin su secenekleri oldugunu test edin
-        // "Select One", "Australia (dollar)", "Canada (dollar)","Switzerland (franc)","China (yuan)",
-        // "Denmark (krone)","Eurozone (euro)","Great Britain (pound)","Hong Kong (dollar)","Japan (yen)",
-        // "Mexico (peso)","Norway (krone)","New Zealand (dollar)","Sweden (krona)","Singapore (dollar)",
-        // "Thailand (baht)"
-
-        List<WebElement> optionsElementListesi= select.getOptions();
+        // 10. soft assert kullanarak DropDown listesinin su secenekleri oldugunu
+        // test edin “Select One”, “Australia (dollar)“, “Canada (dollar)“,”Switzerland (franc)“,
+        // ”China (yuan)“,”Denmark (krone)“,”Eurozone (euro)“,”Great Britain (pound)“,
+        // ”Hong Kong (dollar)“,”Japan (yen)“,”Mexico (peso)“,”Norway (krone)“,
+        // ”New Zealand (dollar)“,”Sweden (krona)“,”Singapore (dollar)“,”Thailand (baht)”
+        List<WebElement> optionsElementListesi=select.getOptions();
         List<String> actualOptionsListesiStr= new ArrayList<>();
-
-        for (WebElement each: optionsElementListesi
-        ) {
+        for (WebElement each:optionsElementListesi
+             ) {
             actualOptionsListesiStr.add(each.getText());
+
         }
-        String[] arr={"Select One", "Australia (dollar)", "Canada (dollar)","Switzerland (franc)",
+
+        String[] arr= {"Select One", "Australia (dollar)", "Canada (dollar)","Switzerland (franc)",
                 "China (yuan)","Denmark (krone)","Eurozone (euro)","Great Britain (pound)",
                 "Hong Kong (dollar)","Japan (yen)","Mexico (peso)","Norway (krone)",
                 "New Zealand (dollar)","Sweden (krona)","Singapore (dollar)","Thailand (baht)"};
         List<String> expectedOptionsListesi= Arrays.asList(arr);
 
-        Collections.sort(actualOptionsListesiStr);// sıralama yaptık
+        Collections.sort(actualOptionsListesiStr); // sıralama yaptık
         Collections.sort(expectedOptionsListesi); // sıralama yaptık
 
         softAssert.assertEquals(actualOptionsListesiStr,expectedOptionsListesi);

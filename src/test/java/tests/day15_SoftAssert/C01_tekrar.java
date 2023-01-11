@@ -20,20 +20,17 @@ public class C01_tekrar {
         SoftAssert softAssert= new SoftAssert();
         String expectedUrlKelime= "amazon";
         String actualUrl= Driver.getDriver().getCurrentUrl();
-        softAssert.assertTrue(actualUrl.contains(expectedUrlKelime));
+        softAssert.assertTrue(actualUrl.contains(expectedUrlKelime),"Url amazon icermiyor!");
         // Nutella aratin
         AmazonPage amazonPage= new AmazonPage();
         amazonPage.amazonAramaKutusu.sendKeys("Nutella"+ Keys.ENTER);
         // arama sonuclarinin nutella icerdigini dogrulayin
         String aramaSonucYazisi=amazonPage.aramaSonucuElementi.getText();
-        softAssert.assertTrue(aramaSonucYazisi.contains("Nutella"));
+        softAssert.assertTrue(aramaSonucYazisi.contains("Nutella"),"Arama sonuclari Nutella içermiyor!");
 
         // java ara
         amazonPage.amazonAramaKutusu.clear();
         amazonPage.amazonAramaKutusu.sendKeys("Java"+ Keys.ENTER);
-
-
-        ReusableMethods.bekle(10);
 
         // arama sonuclarinin 1000'den fazla oldugunu dogrulayin
         System.out.println(amazonPage.aramaSonucuElementi.getText());
@@ -43,9 +40,19 @@ public class C01_tekrar {
         aramaSonucYazisi=amazonPage.aramaSonucuElementi.getText();
 
         String[] sonucArr=aramaSonucYazisi.split(" ");
-        System.out.println(Arrays.toString(sonucArr));
-
         // [1-48, of, over, 6,000, results, for, "Java"]
+
+        String javaSonucSayisisStr= sonucArr[3]; //6,000
+
+        javaSonucSayisisStr=javaSonucSayisisStr.replaceAll("\\W",""); //6000
+        int sonucSayisiInt= Integer.parseInt(javaSonucSayisisStr);
+
+        softAssert.assertTrue(sonucSayisiInt>1000,"Java için arama sonucu 1000'den fazla değil!");
+
+
+
+
+
 
         softAssert.assertAll();
         Driver.closeDriver();
