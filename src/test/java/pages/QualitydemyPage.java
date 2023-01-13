@@ -23,6 +23,9 @@ public class QualitydemyPage {
     @FindBy(xpath = "//button[text()='Login']")
     public WebElement loginButonu;
 
+    @FindBy(xpath = "//*[@onclick='cookieAccept();']")
+    public WebElement cookieButtonAccept;
+
     @FindBy(linkText = "My courses")
     public WebElement basariliGirisCoursesLinki;
 

@@ -8,42 +8,32 @@ import pages.AmazonPage;
 import utilities.ConfigReader;
 import utilities.Driver;
 
-public class C02_DataProvider {
+public class C02_tekrar {
+
 
     @DataProvider
     public static Object[][] AmazonAranacakKelimeler() {
         /*
-            @DataProvider istedigimiz test method'una test datasi saglamak icin kullanilir
+        @DataProvider istedigimiz test method'una test datasi saglamak icin kullanilir
             sadece bir sdarti vardir
             iki katli bir Object array'i dondurmelidir
          */
+        Object[][] amazonAranacakKelimelerArrayi={{"Nutella"}, {"Java"}, {"Apple"}, {"Samsung"},{"armut"}};
 
-        Object[][] amazonAranacakKelimelerArrayi=
-                {{"Nutella"}, {"Java"}, {"Apple"}, {"Samsung"}, {"armut"}};
-
-        return amazonAranacakKelimelerArrayi;
+        return amazonAranacakKelimelerArrayi ;
     }
-
-    // amazona gidelim
-    // Nutella, Java, Apple, Samsung, armut kelimeleri icin arama yapalim
-    // sonuclarin bu kelimeleri icerdigini test edelim
-
-
-
 
     @Test(dataProvider = "AmazonAranacakKelimeler")
     public void aramaTesti(String aranacakKelime){
-
         Driver.getDriver().get(ConfigReader.getProperty("amazonUrl"));
 
         AmazonPage amazonPage= new AmazonPage();
 
-        amazonPage.amazonAramaKutusu.sendKeys(aranacakKelime + Keys.ENTER);
+        amazonPage.amazonAramaKutusu.sendKeys(aranacakKelime  + Keys.ENTER);
 
         String actualSonucYazisi= amazonPage.aramaSonucuElementi.getText();
-
         Assert.assertTrue(actualSonucYazisi.contains(aranacakKelime));
 
-        Driver.closeDriver();
     }
+
 }

@@ -16,7 +16,7 @@ public class ConfigReader {
 
             FileInputStream fis= new FileInputStream(dosyaYolu);
             properties= new Properties();
-            properties.load(fis);
+            properties.load(fis); // load yükle demektir
 
 
         } catch (IOException e) {

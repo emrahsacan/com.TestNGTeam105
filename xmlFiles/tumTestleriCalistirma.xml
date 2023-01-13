@@ -5,7 +5,7 @@
     <test name="Tum testleri calistirma">
 
         <packages>
-            <package name="tests.*"></package>
+            <package name="tests.*"></package> <!-- * tüm package'ları çalıştırır -->
         </packages>
     </test>
 </suite>
